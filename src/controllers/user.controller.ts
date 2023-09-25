@@ -7,10 +7,8 @@ import { emitter } from '../_core/events/activity.event';
 import { ActivityType, EventName } from '../_core/enum/activity.enum';
 import { IActivity } from '../_core/interfaces/activity.interface';
 
-// Create a controller function to handle POST requests for creating profiles
 export const createProfile = async (req: Request & { user: IAuthValue }, res: Response) => {
   try {
-    // Check if there are any validation errors
     const error = validateCreateProfile(req.body);
     if (error) {
       return res.status(400).json({
@@ -19,10 +17,8 @@ export const createProfile = async (req: Request & { user: IAuthValue }, res: Re
       });
     }
 
-    // Extract data from the request body
     const { firstName, lastName, birthdate, address, contact, gender } = req.body;
 
-    // Create a new Profile instance with the extracted data
     const newProfile = new Profile({
       user: req.user.value.id,
       firstName,
@@ -33,7 +29,6 @@ export const createProfile = async (req: Request & { user: IAuthValue }, res: Re
       gender,
     });
 
-    // Save the new profile to the database
     const savedProfile = await newProfile.save();
 
     emitter.emit(EventName.ACTIVITY, {

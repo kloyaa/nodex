@@ -12,7 +12,6 @@ import User from '../models/user.model';
 
 export const login = async (req: Request & { from: any }, res: Response): Promise<any> => {
   try {
-    // Check if there are any validation errors
     const error = validateLogin(req.body);
     if (error) {
       return res.status(400).json({
@@ -34,7 +33,6 @@ export const login = async (req: Request & { from: any }, res: Response): Promis
 
     const passwordMatched: boolean = await bcrypt.compare(password, user.password);
     if (!passwordMatched) {
-      // Incorrect password
       return res.status(401).json(statuses['0051']);
     }
 
@@ -63,7 +61,6 @@ export const login = async (req: Request & { from: any }, res: Response): Promis
 
 export const register = async (req: Request & { from: any }, res: Response): Promise<any> => {
   try {
-    // Check if there are any validation errors
     const error = validateRegister(req.body);
     if (error) {
       return res.status(400).json({
@@ -74,20 +71,16 @@ export const register = async (req: Request & { from: any }, res: Response): Pro
 
     const { username, email, password } = req.body;
 
-    // Check if the username or email already exists
     const existingUser = await User.findOne().or([{ username }, { email }]).exec();
     if (existingUser) {
       return res.status(401).json(statuses['0052']);
     }
 
-    // Generate a salt for bcrypt
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
 
-    // Hash the password using the generated salt
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create a new User document with hashed password and salt
     const newUser = new User({
       username,
       email,
@@ -95,7 +88,6 @@ export const register = async (req: Request & { from: any }, res: Response): Pro
       salt,
     });
 
-    // Save the new User document to the database
     const createdUser = await newUser.save();
 
     emitter.emit(EventName.ACTIVITY, {
