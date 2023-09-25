@@ -1,9 +1,9 @@
-export enum EventName  {
-    ACTIVITY = 'user-activity'
+export enum EventName {
+  ACTIVITY = 'user-activity',
 }
 
 export enum ActivityType {
-    LOGIN = 'Login success',
+  LOGIN = 'Login success',
 
-    REGISTRATION_SUCCESS = 'Registration success'
+  REGISTRATION_SUCCESS = 'Registration success',
 }

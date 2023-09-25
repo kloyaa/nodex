@@ -20,7 +20,7 @@ const userSchema = new Schema<IUser>(
       required: true,
     },
   },
-  {  timestamps: true }
+  { timestamps: true },
 );
 
 const User = model<IUser>('User', userSchema);
