@@ -39,5 +39,5 @@ Contributions are welcome! If you'd like to contribute to "Nodex," please follow
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 # Author
-Kolya Madridano
+Kolya Madridano <br/>
 madridano.kolya@gmail.com
