@@ -1,4 +1,11 @@
 {
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "start:local": "nodemon --exec ts-node src/index.ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "@aws-sdk/client-secrets-manager": "^3.418.0",
     "@paralleldrive/cuid2": "^2.2.2",
@@ -31,17 +38,23 @@
     "@types/mongoose": "^5.11.97",
     "@types/morgan": "^1.9.5",
     "@types/node": "^20.6.5",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
     "nodemon": "^3.0.1",
     "prettier": "^3.0.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   },
-  "scripts": {
-    "build": "tsc",
-    "start": "node dist/index.js",
-    "start:local": "nodemon --exec ts-node src/index.ts",
-    "format": "prettier --write \"src/**/*.ts\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": [
+      "npm run format",
+      "git add"
+    ]
+  },  
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "keywords": [],
   "author": "",

@@ -6,6 +6,7 @@ import { getEnv } from './_core/config/env.config';
 import { maintenanceModeMiddleware } from './_core/middlewares/maintenance-mode.middleware';
 
 import authRoute from './routes/auth.route';
+import userRoute from './routes/user.route';
 
 const app: Application = express();
 
@@ -23,6 +24,7 @@ async function runApp() {
   // Routes
   app.use(maintenanceModeMiddleware);
   app.use('/api', authRoute);
+  app.use('/api', userRoute);
 
   // Connect to MongoDB
   connectDB();

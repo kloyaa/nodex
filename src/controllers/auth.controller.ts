@@ -10,7 +10,7 @@ import { getEnv } from '../_core/config/env.config';
 
 import User from '../models/user.model';
 
-export const login = async (req: Request, res: Response): Promise<any> => {
+export const login = async (req: Request & { from: any }, res: Response): Promise<any> => {
   try {
     // Check if there are any validation errors
     const error = validateLogin(req.body);
@@ -47,7 +47,13 @@ export const login = async (req: Request, res: Response): Promise<any> => {
 
     return res.status(200).json({
       ...statuses['00'],
-      data: await generateJwt(user.id, env.JWT_SECRET_KEY || '123_secretkey'),
+      data: await generateJwt(
+        {
+          origin: req.from,
+          id: user.id,
+        },
+        env.JWT_SECRET_KEY || '123_secretkey',
+      ),
     });
   } catch (error) {
     console.log('@login error', error);
@@ -55,7 +61,7 @@ export const login = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export const register = async (req: Request, res: Response): Promise<any> => {
+export const register = async (req: Request & { from: any }, res: Response): Promise<any> => {
   try {
     // Check if there are any validation errors
     const error = validateRegister(req.body);
@@ -93,7 +99,7 @@ export const register = async (req: Request, res: Response): Promise<any> => {
     const createdUser = await newUser.save();
 
     emitter.emit(EventName.ACTIVITY, {
-      user: createdUser._id,
+      user: createdUser.id,
       description: ActivityType.REGISTRATION_SUCCESS,
     } as IActivity);
 
@@ -101,7 +107,13 @@ export const register = async (req: Request, res: Response): Promise<any> => {
 
     return res.status(200).json({
       ...statuses['0050'],
-      data: await generateJwt(createdUser._id, env.JWT_SECRET_KEY || '123_secretkey'),
+      data: await generateJwt(
+        {
+          id: createdUser.id,
+          origin: req.from,
+        },
+        env.JWT_SECRET_KEY || '123_secretkey',
+      ),
     });
   } catch (error) {
     console.log('@register error', error);
