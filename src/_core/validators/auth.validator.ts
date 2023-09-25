@@ -8,3 +8,14 @@ export const validateLogin = (body: any) => {
 
     return error;
 }
+
+
+export const validateRegister = (body: any) => {
+    const { error } = Joi.object({
+        username: Joi.string().required(),
+        email: Joi.string().email().required(),
+        password: Joi.string().min(6).required(),
+    }).validate(body);
+
+    return error;
+}
