@@ -1,4 +1,4 @@
-import { Schema, Document, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import { IActivity } from '../_core/interfaces/activity.interface';
 
 // Define the Activity Schema

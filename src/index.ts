@@ -15,7 +15,7 @@ async function runApp() {
   app.use(helmet()); // Apply standard security headers
   app.use(
     cors({
-      exposedHeaders: ['x-nodex-dt'],
+      exposedHeaders: ['X-Nodex-DateTime'],
     }),
   ); // Enable CORS for all routes
   app.use(express.json());
@@ -23,12 +23,6 @@ async function runApp() {
   // Routes
   app.use(maintenanceModeMiddleware);
   app.use('/api', authRoute);
-  // app.use('/api', profileRoute)
-  // app.use('/api', betRoute)
-  // app.use('/api', employeeRoute)
-  // app.use('/api', acitvityRoute)
-  // app.use('/api', configRoute)
-  // app.use('/api', transactionRoute)
 
   // Connect to MongoDB
   connectDB();

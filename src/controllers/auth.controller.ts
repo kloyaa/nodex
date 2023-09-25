@@ -1,5 +1,5 @@
-import { type Request, type Response } from 'express';
 import bcrypt from 'bcrypt';
+import { type Request, type Response } from 'express';
 import { statuses } from '../_core/const/api.statuses';
 import { validateLogin, validateRegister } from '../_core/validators/auth.validator';
 import { emitter } from '../_core/events/activity.event';
