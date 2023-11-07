@@ -20,6 +20,9 @@ export const isAuthenticated = async (req: any, res: any, next: any) => {
       if (err) {
         return res.status(401).json(statuses['10020']);
       }
+      if(decoded.value.origin !== req.from) {
+        return res.status(403).json(statuses['0059']);
+      }
       req.user = decoded;
       next();
     });

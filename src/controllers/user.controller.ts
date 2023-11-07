@@ -43,3 +43,21 @@ export const createProfile = async (req: Request & { user: IAuthValue }, res: Re
     return res.status(401).json(statuses['0900']);
   }
 };
+
+export const getProfileByAccessToken = async (req: Request & { user: IAuthValue }, res: Response) => {
+  try {
+    const user = req.user.value.id;
+    const result = await Profile
+      .findOne({ user })
+      .exec();
+
+    if(!result) {
+      return res.status(404).json(statuses['02']);
+    }
+
+    return res.status(200).json(result);
+  } catch (error) {
+    console.log('@getProfileByAccessToken error', error);
+    return res.status(401).json(statuses['0900']);
+  }
+}
