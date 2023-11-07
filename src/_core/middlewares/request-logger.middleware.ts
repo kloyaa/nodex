@@ -5,7 +5,7 @@ import { emitter } from '../events/activity.event';
 import { EventName } from '../enum/activity.enum';
 import { IRequestLog } from '../interfaces/schema/schema.interface';
 
-export const requestLoggerMiddleware = (req: Request, res: Response, next: NextFunction) => {
+export const requestLoggerMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     const start = Date.now();
 
     // Get client IP address from headers (use a more accurate method if needed)
@@ -16,31 +16,36 @@ export const requestLoggerMiddleware = (req: Request, res: Response, next: NextF
     const requestUrl = req.url;
     const userAgent = req.headers['user-agent'];
 
-    // Log the request method, URL, client IP, timestamp, user agent, and request body
-    console.log(`[${timestamp}] ${clientIp} - ${requestMethod} ${requestUrl}`);
-    console.log(`User Agent: ${userAgent}`);
-    console.log('Request Body:', req.body); // Log the request body (if present)
+    // Capture response data
+    let responseStatus: number;
+    let responseStatusMessage: string;
+
+    // Create a function to handle response data capture
+    const captureResponseData = () => {
+        const elapsed = Date.now() - start;
+        responseStatus = res.statusCode || 500;
+        responseStatusMessage = res.statusMessage || 'Unknown';
+
+        // Emit the event with request and response data
+        emitter.emit(EventName.NETWORK_ACTIVITY, {
+            clientIp,
+            timestamp,
+            requestMethod,
+            requestUrl,
+            userAgent,
+            requestBody: req.body,
+            responseStatus,
+            responseStatusMessage,
+            elapsed
+        } as unknown as IRequestLog);
+    };
 
     // Continue processing the request
     next();
 
-    // Log the response status and elapsed time
-    const elapsed = Date.now() - start;
-    const responseStatus = res.statusCode || 500;
-    const responseStatusMessage = res.statusMessage || 'Unknown';
+    // Hook into the response's finish event to capture the response status
+    res.on('finish', captureResponseData);
 
-    console.log(`[${timestamp}] ${clientIp} - ${responseStatus} ${responseStatusMessage} (${elapsed} ms)`);
-
-
-    emitter.emit(EventName.NETWORK_ACTIVITY, {
-        clientIp,
-        timestamp,
-        requestMethod,
-        requestUrl,
-        userAgent,
-        requestBody: req.body,
-        responseStatus,
-        responseStatusMessage,
-        elapsed
-    } as unknown as IRequestLog);
+    // // Hook into the response's close event to capture the response status if it ends abruptly
+    // res.on('close', captureResponseData);
 };

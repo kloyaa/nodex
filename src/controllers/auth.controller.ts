@@ -97,7 +97,7 @@ export const register = async (req: Request & { from: any }, res: Response): Pro
 
     const env = await getEnv();
 
-    return res.status(200).json({
+    return res.status(201).json({
       ...statuses['0050'],
       data: await generateJwt(
         {
