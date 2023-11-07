@@ -26,6 +26,22 @@ To start using "Nodex," follow these steps:
 3. Run `npm install` to install the required dependencies.
 4. Start building your Node.js application with all the features and advantages "Nodex" offers.
 
+## Environment Variables
+
+| Variable Name           | Description                    | Example Value        |
+|-------------------------|--------------------------------|-----------------------|
+| ENVIRONMENT             | The environment name           | Production            |
+| ENVIRONMENT_MAINTENANCE | Indicates maintenance mode    | true                  |
+| PORT                    | Port number for the application | 8080                  |
+| DB_CONNECTION_STRING    | Database connection string     | mongodb://localhost   |
+| DB_CONNECTION_STRING_LOCAL | Local database connection   | mongodb://localhost   |
+| AWS_ACCESS_KEY_ID       | AWS Access Key ID               | your-access-key-id    |
+| AWS_SECRET_ACCESS_KEY   | AWS Secret Access Key           | your-secret-access-key |
+| AWS_SECRET_NAME         | AWS Secret Name                 | your-secret-name      |
+| JWT_EXPIRY              | JWT token expiration duration   | 1h                    |
+| JWT_SECRET_KEY          | JWT secret key for token signing | your-secret-key      |
+
+
 ## Usage
 
 Feel free to customize and extend "Nodex" to meet the specific requirements of your project. This boilerplate is designed to save you time during the initial setup, allowing you to focus on building the core functionality of your Node.js project.
