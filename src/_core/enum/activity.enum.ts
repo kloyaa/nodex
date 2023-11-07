@@ -1,5 +1,6 @@
 export enum EventName {
   ACTIVITY = 'user-activity',
+  NETWORK_ACTIVITY = 'network-activity',
 }
 
 export enum ActivityType {

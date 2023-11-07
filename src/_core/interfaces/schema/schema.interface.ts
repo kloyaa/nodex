@@ -21,3 +21,15 @@ export interface IProfile extends Document {
   };
   gender: string;
 }
+
+export interface IRequestLog extends Document {
+  timestamp: Date;
+  clientIp: string;
+  requestMethod: string;
+  requestUrl: string;
+  userAgent: string;
+  requestBody?: any;
+  responseStatus: number;
+  responseStatusMessage: string;
+  elapsed: number;
+}
