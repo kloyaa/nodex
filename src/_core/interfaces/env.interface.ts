@@ -9,4 +9,7 @@ export interface IEnvironmentVariables {
   AWS_SECRET_NAME: string | undefined;
   JWT_EXPIRY: string | undefined;
   JWT_SECRET_KEY: string | undefined;
+  NODEX_ACCESS_KEY: string | undefined;
+  NODEX_SECRET_KEY: string | undefined;
+  NODEX_CRYPTO_KEY: string | undefined;
 }

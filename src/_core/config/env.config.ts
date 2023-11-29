@@ -13,6 +13,9 @@ export const getEnv = async (): Promise<IEnvironmentVariables> => {
     AWS_SECRET_NAME: process.env.AWS_SECRET_NAME,
     JWT_EXPIRY: process.env.JWT_EXPIRY,
     JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
+    NODEX_ACCESS_KEY: process.env.NODEX_ACCESS_KEY,
+    NODEX_SECRET_KEY: process.env.NODEX_SECRET_KEY,
+    NODEX_CRYPTO_KEY: process.env.NODEX_CRYPTO_KEY
   };
 
   // Check if any property is undefined or null

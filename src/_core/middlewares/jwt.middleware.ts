@@ -1,8 +1,11 @@
 import jwt from 'jsonwebtoken';
 import { statuses } from '../const/api.statuses';
 import { getEnv } from '../config/env.config';
+import { decrypt } from '../utils/security/encryption.util';
+import { Request } from 'express';
+import { TRequest } from '../interfaces/overrides.interface';
 
-export const isAuthenticated = async (req: any, res: any, next: any) => {
+export const isAuthenticated = async (req: TRequest, res: any, next: any) => {
   try {
     const authHeader = req.headers['authorization'];
     if (!authHeader) {
@@ -20,11 +23,17 @@ export const isAuthenticated = async (req: any, res: any, next: any) => {
       if (err) {
         return res.status(401).json(statuses['10020']);
       }
-      if(decoded.value.origin !== req.from) {
-        return res.status(403).json(statuses['0059']);
+      else if(decoded) {
+        const decryptedData: { origin: string; id: string } = decrypt(decoded.value, env.NODEX_CRYPTO_KEY ?? "123_cryptoKey");
+        if(!decryptedData) {
+          return res.status(401).json(statuses['10020']);
+        }
+        else if(decryptedData?.origin !== req.headers['nodex-user-origin']) {
+          return res.status(403).json(statuses['0059']);
+        }
+        req.user = decryptedData as any;
+        next();
       }
-      req.user = decoded;
-      next();
     });
   } catch (error) {
     return res.status(401).json(statuses['10020']);

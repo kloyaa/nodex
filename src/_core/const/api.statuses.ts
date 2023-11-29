@@ -28,7 +28,7 @@ export const statuses = {
     code: '0050',
   },
   '0051': {
-    message: 'Incorrect username or password.',
+    message: 'Incorrect username and/or password.',
     code: '0051',
   },
   '0052': {
@@ -62,6 +62,14 @@ export const statuses = {
   '0059': {
     message: 'Incorrect origin.',
     code: '0059',
+  },
+  '0060': {
+    message: 'Incomplete number of required headers.',
+    code: '0060',
+  },
+  '0070': {
+    message: 'Incorrect Secret and/or Access key.',
+    code: '0070',
   },
   /**
    * @alias Profile

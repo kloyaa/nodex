@@ -8,6 +8,7 @@ import { maintenanceModeMiddleware } from './_core/middlewares/maintenance-mode.
 import authRoute from './routes/auth.route';
 import userRoute from './routes/user.route';
 import { requestLoggerMiddleware } from './_core/middlewares/request-logger.middleware';
+import { allowApiAccessMiddleware } from './_core/middlewares/allow-access.middleware';
 
 const app: Application = express();
 
@@ -23,6 +24,7 @@ async function runApp() {
   app.use(express.json());
 
   // Routes
+  app.use(allowApiAccessMiddleware);
   app.use(maintenanceModeMiddleware);
   app.use(requestLoggerMiddleware);
 

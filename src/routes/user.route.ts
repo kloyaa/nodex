@@ -1,12 +1,10 @@
 import { Router } from 'express';
 import { createProfile, getProfileByAccessToken } from '../controllers/user.controller';
-import { checkUserOrigin } from '../_core/middlewares/check-origin.middleware';
 import { isAuthenticated } from '../_core/middlewares/jwt.middleware';
 
 const router = Router();
 
 const commonMiddlewares = [
-    checkUserOrigin,
     isAuthenticated
 ];
 

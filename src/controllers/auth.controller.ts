@@ -9,8 +9,9 @@ import { generateJwt } from '../_core/utils/jwt/jwt.util';
 import { getEnv } from '../_core/config/env.config';
 
 import User from '../models/user.model';
+import { encrypt } from '../_core/utils/security/encryption.util';
 
-export const login = async (req: Request & { from: any }, res: Response): Promise<any> => {
+export const login = async (req: Request, res: Response): Promise<any> => {
   try {
     const error = validateLogin(req.body);
     if (error) {
@@ -42,15 +43,14 @@ export const login = async (req: Request & { from: any }, res: Response): Promis
     } as IActivity);
 
     const env = await getEnv();
+    const payload = { origin: req.headers['nodex-user-origin'], id: user.id }
+    const encryptedPayload = encrypt(payload, env.NODEX_CRYPTO_KEY ?? "123_cryptoKey")
 
     return res.status(200).json({
       ...statuses['00'],
       data: await generateJwt(
-        {
-          origin: req.from,
-          id: user.id,
-        },
-        env.JWT_SECRET_KEY || '123_secretkey',
+        encryptedPayload,
+        env.JWT_SECRET_KEY || '123_secretKey',
       ),
     });
   } catch (error) {
@@ -59,7 +59,7 @@ export const login = async (req: Request & { from: any }, res: Response): Promis
   }
 };
 
-export const register = async (req: Request & { from: any }, res: Response): Promise<any> => {
+export const register = async (req: Request, res: Response): Promise<any> => {
   try {
     const error = validateRegister(req.body);
     if (error) {
@@ -96,17 +96,17 @@ export const register = async (req: Request & { from: any }, res: Response): Pro
     } as IActivity);
 
     const env = await getEnv();
+    const payload = { origin: req.headers['nodex-user-origin'], id: createdUser.id }
+    const encryptedPayload = encrypt(payload, env.NODEX_CRYPTO_KEY ?? "123_cryptoKey")
 
     return res.status(201).json({
       ...statuses['0050'],
       data: await generateJwt(
-        {
-          id: createdUser.id,
-          origin: req.from,
-        },
+        encryptedPayload,
         env.JWT_SECRET_KEY || '123_secretkey',
       ),
     });
+
   } catch (error) {
     console.log('@register error', error);
     return res.status(401).json(statuses['0900']);
