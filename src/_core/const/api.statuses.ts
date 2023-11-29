@@ -118,7 +118,7 @@ export const statuses = {
     code: '500',
   },
   '501': {
-    message: 'Incorrect number of parameters. Please try again later.',
+    message: 'Payload incomplete',
     code: '501',
   },
   '10010': {
