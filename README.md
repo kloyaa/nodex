@@ -40,6 +40,9 @@ To start using "Nodex," follow these steps:
 | AWS_SECRET_NAME         | AWS Secret Name                 | your-secret-name      |
 | JWT_EXPIRY              | JWT token expiration duration   | 1h                    |
 | JWT_SECRET_KEY          | JWT secret key for token signing | your-secret-key      |
+| NODEX_ACCESS_KEY          | Headers validation | your-nodex-key      |
+| NODEX_SECRET_KEY          | Headers validation | your-nodex-key      |
+| NODEX_CRYPTO_KEY          | Encryption secret key | your-nodex-key      |
 
 
 ## Usage
