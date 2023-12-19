@@ -121,6 +121,10 @@ export const statuses = {
     message: 'Payload incomplete',
     code: '501',
   },
+  '502': {
+    message: 'Incorrect payload format.',
+    code: '502',
+  },
   '10010': {
     message: 'Aws S3 JWT_SECRET is incorrect/invalid',
     code: '10010',

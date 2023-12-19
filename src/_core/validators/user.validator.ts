@@ -14,10 +14,22 @@ export const validateCreateProfile = (body: any) => {
       number: Joi.string()
         .trim()
         .pattern(/^09\d{9}$/) // Pattern for a valid Philippine mobile number starting with '09'
-        .messages({ 'string.pattern.base':  'Invalid Mobile No. format' })
+        .messages({ 'string.pattern.base': 'Invalid Mobile No. format' })
         .required(),
     }).required(),
     gender: Joi.string().valid('male', 'female', 'other').required(),
+  });
+
+  const { error } = schema.validate(body);
+  return error;
+};
+
+export const validateUpdateProfile = (body: any) => {
+  const allowedKeys = ['firstName', 'lastName', 'birthdate', 'address', 'contact', 'gender'];
+
+  const schema = Joi.object({
+    keys: Joi.array().items(Joi.string().valid(...allowedKeys)).required(),
+    values: Joi.array().required(),
   });
 
   const { error } = schema.validate(body);
