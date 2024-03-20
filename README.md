@@ -46,6 +46,9 @@ To start using "Nodex," follow these steps:
 
 ## Scripts
 
+Run application locally
+<pre> $ npm run start:local </pre>
+
 Run seeds
 <pre> $ npm run start:seeding </pre>
 
