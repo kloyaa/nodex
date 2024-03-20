@@ -1,4 +1,4 @@
-import { CitySchema, CountrySchema, RegionSchema, StateSchema, SubRegionSchema } from '../../models/address.schema';
+import { CitySchema, CountrySchema, RegionSchema, StateSchema, SubRegionSchema } from '../../schema/address.schema';
 import { connectDB, closeDB } from '../utils/db/db.util';
 import { ReadAddress } from './services/address';
 

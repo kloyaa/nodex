@@ -1,5 +1,5 @@
 import { type Response } from 'express';
-import Profile from '../models/profile.model';
+import Profile from '../schema/profile.schema';
 import { validateCreateProfile, validateUpdateProfile } from '../_core/validators/user.validator';
 import { statuses } from '../_core/const/api.statuses';
 import { emitter } from '../_core/events/activity.event';
@@ -13,7 +13,7 @@ export const createProfile = async (req: TRequest, res: Response) => {
   if (error) {
     return res.status(400).json({
       ...statuses['501'],
-      error: error.details[0].message.replace(/['"]/g, ''),
+      message: error.details[0].message.replace(/['"]/g, ''),
     });
   }
 
@@ -72,7 +72,7 @@ export const updateProfileByAccessToken = async (req: TRequest, res: Response) =
   if (error) {
     return res.status(400).json({
       ...statuses['501'],
-      error: error.details[0].message.replace(/['"]/g, ''),
+      message: error.details[0].message.replace(/['"]/g, ''),
     });
   }
 
