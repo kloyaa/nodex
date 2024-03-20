@@ -3,6 +3,7 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "start:local": "nodemon --exec ts-node src/index.ts",
+    "start:seeding": "ts-node --project tsconfig.json src/_core/seeders/index.ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -14,6 +15,7 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
+    "csv-parser": "^3.0.0",
     "dotenv": "^16.3.1",
     "eventemitter3": "^5.0.1",
     "express": "^4.18.2",
@@ -49,7 +51,7 @@
     "src/**/*.{ts,tsx}": [
       "npm run format"
     ]
-  },  
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"

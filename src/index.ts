@@ -1,7 +1,7 @@
 import express, { type Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import connectDB from './_core/utils/db/db.util';
+import { connectDB } from './_core/utils/db/db.util';
 import { getEnv } from './_core/config/env.config';
 import { maintenanceModeMiddleware } from './_core/middlewares/maintenance-mode.middleware';
 
