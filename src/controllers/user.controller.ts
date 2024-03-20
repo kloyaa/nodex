@@ -18,7 +18,7 @@ export const createProfile = async (req: TRequest, res: Response) => {
   }
 
   try {
-    const { firstName, lastName, birthdate, address, contact, gender } = req.body;
+    const { firstName, lastName, birthdate, middleName, address, contact, gender } = req.body;
     const profile = await Profile.findOne({ user: req.user.id });
     if (profile) {
       return res.status(400).json(statuses['0103']);
@@ -32,6 +32,7 @@ export const createProfile = async (req: TRequest, res: Response) => {
       address,
       contact,
       gender,
+      middleName
     });
 
     const savedProfile = await newProfile.save();
@@ -63,70 +64,6 @@ export const getProfileByAccessToken = async (req: TRequest, res: Response) => {
     return res.status(200).json(result);
   } catch (error) {
     console.log('@getProfileByAccessToken error', error);
-    return res.status(401).json(statuses['0900']);
-  }
-}
-
-export const updateProfileByAccessToken = async (req: TRequest, res: Response) => {
-  const error = validateUpdateProfile(req.body);
-  if (error) {
-    return res.status(400).json({
-      ...statuses['501'],
-      message: error.details[0].message.replace(/['"]/g, ''),
-    });
-  }
-
-  try {
-    const existingProfile = await Profile.findOne({ user: req.user.id });
-    if (!existingProfile) {
-      return res.status(404).json(statuses['0104']);
-    }
-
-    const { keys, values: keyVal } = req.body;
-
-    if(!keys?.length || !keyVal?.length) {
-      return res.status(400).json(statuses['501']);
-    }
-    else if(keys?.length != keyVal?.length) {
-      return res.status(400).json(statuses['502']);
-    }
-
-    // Update the specified fields
-    for (let i = 0; i < keys?.length; i++) {
-      const field = keys[i];
-      const value = keyVal[i];
-      // Validate and update each field individually
-      if (field === 'firstName') {
-        existingProfile.firstName = value;
-      } else if (field === 'lastName') {
-        existingProfile.lastName = value;
-      } else if (field === 'birthdate') {
-        existingProfile.birthdate = value;
-      } else if (field === 'address') {
-        if(isEmpty(value?.present) || isEmpty(value?.permanent)) {
-          return res.status(400).json(statuses['502']);
-        }
-        existingProfile.address = value;
-      } else if (field === 'contact') {
-        if(isEmpty(value?.email) || isEmpty(value?.number)) {
-          return res.status(400).json(statuses['502']);
-        }
-        existingProfile.contact = value;
-      } else if (field === 'gender') {
-        existingProfile.gender = value;
-      }
-    }
-
-    const updatedProfile = await existingProfile.save();
-
-    emitter.emit(EventName.ACTIVITY, {
-      user: req.user.id as any,
-      description: ActivityType.PROFILE_UPDATED,
-    } as IActivity);
-
-    return res.status(200).json(updatedProfile);
-  } catch (error) {
-    console.log('@updateProfileByAccessToke error', error);
     return res.status(401).json(statuses['0900']);
   }
 }

@@ -4,6 +4,7 @@ export const validateCreateProfile = (body: any) => {
   const schema = Joi.object({
     firstName: Joi.string().trim().min(2).max(50).required(),
     lastName: Joi.string().trim().min(2).max(50).required(),
+    middleName: Joi.string().trim().min(2).max(50).required(),
     birthdate: Joi.date().iso().required(),
     address: Joi.object({
       present: Joi.string().trim().min(5).max(255).required(),

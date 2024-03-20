@@ -15,7 +15,10 @@ export const getEnv = async (): Promise<IEnvironmentVariables> => {
     JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
     NODEX_ACCESS_KEY: process.env.NODEX_ACCESS_KEY,
     NODEX_SECRET_KEY: process.env.NODEX_SECRET_KEY,
-    NODEX_CRYPTO_KEY: process.env.NODEX_CRYPTO_KEY
+    NODEX_CRYPTO_KEY: process.env.NODEX_CRYPTO_KEY,
+    CLOUDINARY_NAME: process.env.CLOUDINARY_NAME,
+    CLOUDINARY_KEY: process.env.CLOUDINARY_KEY,
+    CLOUDINARY_SECRET: process.env.CLOUDINARY_SECRET,
   };
 
   // Check if any property is undefined or null

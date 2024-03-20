@@ -9,6 +9,8 @@ import authRoute from './routes/auth.route';
 import userRoute from './routes/user.route';
 import { requestLoggerMiddleware } from './_core/middlewares/request-logger.middleware';
 import { allowApiAccessMiddleware } from './_core/middlewares/allow-access.middleware';
+import multer from 'multer';
+import { fileFilter, storage } from './_core/services/upload/image_upload.service';
 
 const app: Application = express();
 
@@ -27,6 +29,7 @@ async function runApp() {
   app.use(allowApiAccessMiddleware);
   app.use(maintenanceModeMiddleware);
   app.use(requestLoggerMiddleware);
+  app.use(multer({ storage, fileFilter }).array("media"));
 
   app.use('/api', authRoute);
   app.use('/api', userRoute);

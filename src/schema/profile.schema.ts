@@ -16,6 +16,10 @@ const profileSchema = new Schema<IProfile>(
       type: String,
       required: true,
     },
+    middleName: {
+      type: String,
+      required: false,
+    },
     birthdate: {
       type: Date,
       required: true,
@@ -45,6 +49,10 @@ const profileSchema = new Schema<IProfile>(
       enum: ['male', 'female', 'other'],
       required: true,
     },
+    isActive: {
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true },
 );

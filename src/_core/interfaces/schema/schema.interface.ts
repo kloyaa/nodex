@@ -10,6 +10,7 @@ export interface IProfile extends Document {
   user: Types.ObjectId;
   firstName: string;
   lastName: string;
+  middleName: string;
   birthdate: Date;
   address: {
     present: string;
@@ -20,6 +21,7 @@ export interface IProfile extends Document {
     number: string;
   };
   gender: string;
+  isActive: false
 }
 
 export interface IRequestLog extends Document {
