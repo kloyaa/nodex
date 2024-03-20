@@ -44,6 +44,10 @@ To start using "Nodex," follow these steps:
 | NODEX_SECRET_KEY          | Headers validation | your-nodex-key      |
 | NODEX_CRYPTO_KEY          | Encryption secret key | your-nodex-key      |
 
+## Scripts
+
+Run seeds
+<code> $ npm run start:seeding </code>
 
 ## Usage
 
