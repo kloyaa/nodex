@@ -26,6 +26,6 @@ Contributing to Nodex is easy! Here's how you can get started:
 Before submitting your contribution, please make sure to follow these guidelines:
 
 <h3>Guidelines for Contribution</h3>
-- Adhere to the existing code style and formatting conventions.
-- Use meaningful variable and function names.
-- Write clear and concise comments where necessary to explain complex logic or functionality.
+    - Adhere to the existing code style and formatting conventions.
+    - Use meaningful variable and function names.
+    - Write clear and concise comments where necessary to explain complex logic or functionality.
