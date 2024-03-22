@@ -3,9 +3,7 @@ import { login, register, changeUserPassword } from '../controllers/auth.control
 import { isAuthenticated } from '../_core/middlewares/jwt.middleware';
 const router = Router();
 
-const commonMiddlewares = [
-    isAuthenticated
-];
+const commonMiddlewares = [isAuthenticated];
 
 router.post('/auth/v1/login', login as any);
 router.post('/auth/v1/register', register as any);

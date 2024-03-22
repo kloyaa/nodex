@@ -1,5 +1,3 @@
-import { seedLocations } from "./address.seed";
+import { seedLocations } from './address.seed';
 
-Promise.all([
-    seedLocations()
-]);
+Promise.all([seedLocations()]);

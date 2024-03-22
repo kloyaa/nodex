@@ -26,7 +26,16 @@ emitter.on(EventName.ACTIVITY, async (payload: IActivity) => {
 
 // Event listener for 'network-activity' event
 emitter.on(EventName.NETWORK_ACTIVITY, async (payload: IRequestLog) => {
-  const { clientIp, requestMethod, requestUrl, userAgent, requestBody, responseStatus, responseStatusMessage, elapsed } = payload;
+  const {
+    clientIp,
+    requestMethod,
+    requestUrl,
+    userAgent,
+    requestBody,
+    responseStatus,
+    responseStatusMessage,
+    elapsed,
+  } = payload;
   try {
     // Create a new RequestLog document
     const requestLog = new RequestLog({
@@ -46,4 +55,3 @@ emitter.on(EventName.NETWORK_ACTIVITY, async (payload: IRequestLog) => {
     console.error(`@${EventName.NETWORK_ACTIVITY} error`, error);
   }
 });
-

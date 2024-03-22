@@ -51,8 +51,8 @@ const profileSchema = new Schema<IProfile>(
     },
     isActive: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   { timestamps: true },
 );

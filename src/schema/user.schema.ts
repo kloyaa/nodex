@@ -41,4 +41,4 @@ const passwordSchema = new Schema<IPassword>(
 const Password = model<IPassword>('Password', passwordSchema);
 const User = model<IUser>('User', userSchema);
 
-export { Password, User }
+export { Password, User };

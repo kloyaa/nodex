@@ -29,7 +29,7 @@ async function runApp() {
   app.use(allowApiAccessMiddleware);
   app.use(maintenanceModeMiddleware);
   app.use(requestLoggerMiddleware);
-  app.use(multer({ storage, fileFilter }).array("media"));
+  app.use(multer({ storage, fileFilter }).array('media'));
 
   app.use('/api', authRoute);
   app.use('/api', userRoute);

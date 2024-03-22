@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { type Request, type Response } from 'express';
+import { type Response } from 'express';
 import { statuses } from '../_core/const/api.statuses';
 import { validateChangePassword, validateLogin, validateRegister } from '../_core/validators/auth.validator';
 import { emitter } from '../_core/events/activity.event';
@@ -11,7 +11,7 @@ import { getEnv } from '../_core/config/env.config';
 import { Password, User } from '../schema/user.schema';
 import { encrypt } from '../_core/utils/security/encryption.util';
 import { TRequest } from '../_core/interfaces/overrides.interface';
-import { findLastChangePassActivityByUser, isPasswordAlreadyUsed } from '../_core/services/user/user.service';
+import { isPasswordAlreadyUsed } from '../_core/services/user/user.service';
 import { toObjectId } from '../_core/utils/odm';
 
 export const login = async (req: TRequest, res: Response): Promise<any> => {
@@ -46,15 +46,12 @@ export const login = async (req: TRequest, res: Response): Promise<any> => {
     } as IActivity);
 
     const env = await getEnv();
-    const payload = { origin: req.headers['nodex-user-origin'], id: user.id }
-    const encryptedPayload = encrypt(payload, env.NODEX_CRYPTO_KEY ?? "123_cryptoKey")
+    const payload = { origin: req.headers['nodex-user-origin'], id: user.id };
+    const encryptedPayload = encrypt(payload, env.NODEX_CRYPTO_KEY ?? '123_cryptoKey');
 
     return res.status(200).json({
       ...statuses['00'],
-      data: await generateJwt(
-        encryptedPayload,
-        env.JWT_SECRET_KEY || '123_secretKey',
-      ),
+      data: await generateJwt(encryptedPayload, env.JWT_SECRET_KEY || '123_secretKey'),
     });
   } catch (error) {
     console.log('@login error', error);
@@ -99,17 +96,13 @@ export const register = async (req: TRequest, res: Response): Promise<any> => {
     } as IActivity);
 
     const env = await getEnv();
-    const payload = { origin: req.headers['nodex-user-origin'], id: createdUser.id }
-    const encryptedPayload = encrypt(payload, env.NODEX_CRYPTO_KEY ?? "123_cryptoKey")
+    const payload = { origin: req.headers['nodex-user-origin'], id: createdUser.id };
+    const encryptedPayload = encrypt(payload, env.NODEX_CRYPTO_KEY ?? '123_cryptoKey');
 
     return res.status(201).json({
       ...statuses['0050'],
-      data: await generateJwt(
-        encryptedPayload,
-        env.JWT_SECRET_KEY || '123_secretkey',
-      ),
+      data: await generateJwt(encryptedPayload, env.JWT_SECRET_KEY || '123_secretkey'),
     });
-
   } catch (error) {
     console.log('@register error', error);
     return res.status(401).json(statuses['0900']);
@@ -142,7 +135,7 @@ export const changeUserPassword = async (req: TRequest, res: Response) => {
     }
 
     const _isPasswordAlreadyUsed = await isPasswordAlreadyUsed(toObjectId(req.user.id), newPassword);
-    if(_isPasswordAlreadyUsed) {
+    if (_isPasswordAlreadyUsed) {
       return res.status(403).json(statuses['0065']);
     }
 
@@ -152,15 +145,12 @@ export const changeUserPassword = async (req: TRequest, res: Response) => {
 
     const savePassword = new Password({
       user: req.user.id,
-      password: hashedPassword
+      password: hashedPassword,
     });
 
     await Promise.all([
-      User.findByIdAndUpdate(req.user.id,
-        { password: hashedPassword },
-        { new: true }
-      ),
-      savePassword.save()
+      User.findByIdAndUpdate(req.user.id, { password: hashedPassword }, { new: true }),
+      savePassword.save(),
     ]);
 
     emitter.emit(EventName.ACTIVITY, {
@@ -168,9 +158,9 @@ export const changeUserPassword = async (req: TRequest, res: Response) => {
       description: ActivityType.CHANGE_PASSWORD,
     } as IActivity);
 
-    return res.status(200).json(statuses["00"]);
+    return res.status(200).json(statuses['00']);
   } catch (error) {
     console.log('@updateUserPassword error', error);
     return res.status(500).json(statuses['0900']);
   }
-}
+};
