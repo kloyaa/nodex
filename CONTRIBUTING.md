@@ -25,7 +25,40 @@ Contributing to Nodex is easy! Here's how you can get started:
 
 Before submitting your contribution, please make sure to follow these guidelines:
 
-<h3>Guidelines for Contribution</h3>
-    - Adhere to the existing code style and formatting conventions.
-    - Use meaningful variable and function names.
-    - Write clear and concise comments where necessary to explain complex logic or functionality.
+## Guidelines for Contribution
+
+Before submitting your contribution, please make sure to follow these guidelines:
+
+### Code Style
+
+- Adhere to the existing code style and formatting conventions.
+- Use meaningful variable and function names.
+- Write clear and concise comments where necessary to explain complex logic or functionality.
+
+### Testing
+
+- Write tests for new features or changes.
+- Ensure that all existing tests pass before submitting your contribution.
+- Test your changes thoroughly to prevent regressions.
+
+### Documentation
+
+- Update the documentation to reflect any changes or additions.
+- Provide clear and comprehensive documentation for new features or changes.
+
+### Licensing
+
+- Ensure that your contribution complies with the project's license (MIT License).
+- If you're introducing third-party libraries or dependencies, ensure they are compatible with the project's license.
+
+## Code of Conduct
+
+Please note that we have a Code of Conduct in place to ensure a positive and inclusive community environment. By contributing to Nodex, you agree to abide by the Code of Conduct. Any violations of the Code of Conduct will not be tolerated and may result in your contributions being rejected or your access to the project being revoked.
+
+## Getting Help
+
+If you need any assistance or have any questions about contributing to Nodex, feel free to reach out to us through the issue tracker or via email.
+
+Thank you for your interest in contributing to Nodex! We appreciate your support and look forward to your contributions.
+
+Happy coding! 🚀
