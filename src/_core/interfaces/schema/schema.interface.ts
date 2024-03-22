@@ -6,6 +6,11 @@ export interface IUser extends Document {
   password: string;
 }
 
+export interface IPassword extends Document {
+  user: Types.ObjectId;
+  password: string;
+}
+
 export interface IProfile extends Document {
   user: Types.ObjectId;
   firstName: string;

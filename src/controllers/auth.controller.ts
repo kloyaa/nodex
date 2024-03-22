@@ -1,26 +1,29 @@
 import bcrypt from 'bcrypt';
 import { type Request, type Response } from 'express';
 import { statuses } from '../_core/const/api.statuses';
-import { validateLogin, validateRegister } from '../_core/validators/auth.validator';
+import { validateChangePassword, validateLogin, validateRegister } from '../_core/validators/auth.validator';
 import { emitter } from '../_core/events/activity.event';
 import { ActivityType, EventName } from '../_core/enum/activity.enum';
 import { IActivity } from '../_core/interfaces/activity.interface';
 import { generateJwt } from '../_core/utils/jwt/jwt.util';
 import { getEnv } from '../_core/config/env.config';
 
-import User from '../schema/user.schema';
+import { Password, User } from '../schema/user.schema';
 import { encrypt } from '../_core/utils/security/encryption.util';
+import { TRequest } from '../_core/interfaces/overrides.interface';
+import { findLastChangePassActivityByUser, isPasswordAlreadyUsed } from '../_core/services/user/user.service';
+import { toObjectId } from '../_core/utils/odm';
 
-export const login = async (req: Request, res: Response): Promise<any> => {
+export const login = async (req: TRequest, res: Response): Promise<any> => {
+  const error = validateLogin(req.body);
+  if (error) {
+    return res.status(400).json({
+      ...statuses['501'],
+      message: error.details[0].message.replace(/['"]/g, ''),
+    });
+  }
+
   try {
-    const error = validateLogin(req.body);
-    if (error) {
-      return res.status(400).json({
-        ...statuses['501'],
-        message: error.details[0].message.replace(/['"]/g, ''),
-      });
-    }
-
     const { username, password } = req.body;
 
     const user = await User.findOne()
@@ -59,16 +62,16 @@ export const login = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export const register = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const error = validateRegister(req.body);
-    if (error) {
-      return res.status(400).json({
-        ...statuses['501'],
-        message: error.details[0].message.replace(/['"]/g, ''),
-      });
-    }
+export const register = async (req: TRequest, res: Response): Promise<any> => {
+  const error = validateRegister(req.body);
+  if (error) {
+    return res.status(400).json({
+      ...statuses['501'],
+      message: error.details[0].message.replace(/['"]/g, ''),
+    });
+  }
 
+  try {
     const { username, email, password } = req.body;
 
     const existingUser = await User.findOne().or([{ username }, { email }]).exec();
@@ -112,3 +115,62 @@ export const register = async (req: Request, res: Response): Promise<any> => {
     return res.status(401).json(statuses['0900']);
   }
 };
+
+export const changeUserPassword = async (req: TRequest, res: Response) => {
+  const error = validateChangePassword(req.body);
+  if (error) {
+    return res.status(400).json({
+      ...statuses['501'],
+      message: error.details[0].message.replace(/['"]/g, ''),
+    });
+  }
+
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json(statuses['0056']);
+    }
+
+    const passwordMatched: boolean = await bcrypt.compare(currentPassword, user.password);
+    if (!passwordMatched) {
+      return res.status(403).json(statuses['0063']);
+    }
+
+    if (currentPassword === newPassword) {
+      return res.status(403).json(statuses['0064']);
+    }
+
+    const _isPasswordAlreadyUsed = await isPasswordAlreadyUsed(toObjectId(req.user.id), newPassword);
+    if(_isPasswordAlreadyUsed) {
+      return res.status(403).json(statuses['0065']);
+    }
+
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    const savePassword = new Password({
+      user: req.user.id,
+      password: hashedPassword
+    });
+
+    await Promise.all([
+      User.findByIdAndUpdate(req.user.id,
+        { password: hashedPassword },
+        { new: true }
+      ),
+      savePassword.save()
+    ]);
+
+    emitter.emit(EventName.ACTIVITY, {
+      user: user.id,
+      description: ActivityType.CHANGE_PASSWORD,
+    } as IActivity);
+
+    return res.status(200).json(statuses["00"]);
+  } catch (error) {
+    console.log('@updateUserPassword error', error);
+    return res.status(500).json(statuses['0900']);
+  }
+}

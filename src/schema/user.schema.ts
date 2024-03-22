@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { IUser } from '../_core/interfaces/schema/schema.interface';
+import { IPassword, IUser } from '../_core/interfaces/schema/schema.interface';
 
 const userSchema = new Schema<IUser>(
   {
@@ -23,6 +23,22 @@ const userSchema = new Schema<IUser>(
   { timestamps: true },
 );
 
+const passwordSchema = new Schema<IPassword>(
+  {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true },
+);
+
+const Password = model<IPassword>('Password', passwordSchema);
 const User = model<IUser>('User', userSchema);
 
-export default User;
+export { Password, User }

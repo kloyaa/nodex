@@ -19,6 +19,10 @@ export const statuses = {
     message: 'Failed',
     code: '03',
   },
+  '04': {
+    message: 'Duplicate',
+    code: '04',
+  },
   /**
    * @alias Authentication
    * @description from 0050 - 0100
@@ -67,9 +71,33 @@ export const statuses = {
     message: 'Incomplete number of required headers.',
     code: '0060',
   },
+  '0061': {
+    message: 'Username and/or Email is already registered, Please try another.',
+    code: '0061',
+  },
+  '0062': {
+    message: "Oops! Your password and confirmation didn't match. Please re-enter to match them up.",
+    code: '0062',
+  },
+  '0063': {
+    message: 'Password does not match.',
+    code: '0063',
+  },
+  '0064': {
+    message: 'Current and New password cannot be the same.',
+    code: '0064',
+  },
+  '0065': {
+    message: "You can't use your previous password as your new one. Let's keep it fresh and secure!",
+    code: '0065',
+  },
   '0070': {
     message: 'Incorrect Secret and/or Access key.',
     code: '0070',
+  },
+  '0071': {
+    message: 'User role not assigned. Please contact the administrator.',
+    code: '0071',
   },
   /**
    * @alias Profile
