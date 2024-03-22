@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 export const isEmpty = (value: any) => {
     if (value === null || value === undefined) {
         return true;
@@ -12,4 +14,9 @@ export const isEmpty = (value: any) => {
     }
 
     return false;
+};
+
+
+export const formatDate = (date: Date): string => {
+  return dayjs(date).format('MMM D, YYYY; hh:mm A');
 };

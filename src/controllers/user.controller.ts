@@ -6,7 +6,9 @@ import { emitter } from '../_core/events/activity.event';
 import { ActivityType, EventName } from '../_core/enum/activity.enum';
 import { IActivity } from '../_core/interfaces/activity.interface';
 import { TRequest } from '../_core/interfaces/overrides.interface';
-import { isEmpty } from '../_core/utils/utils';
+import { formatDate, isEmpty } from '../_core/utils/utils';
+import { findLastChangePassActivityByUser, findLastLoginByUser } from '../_core/services/user/user.service';
+import { toObjectId } from '../_core/utils/odm';
 
 export const createProfile = async (req: TRequest, res: Response) => {
   const error = validateCreateProfile(req.body);
@@ -53,7 +55,7 @@ export const createProfile = async (req: TRequest, res: Response) => {
 export const getProfileByAccessToken = async (req: TRequest, res: Response) => {
   try {
     const user = req.user.id;
-    const result = await Profile
+    const result: any = await Profile
       .findOne({ user })
       .exec();
 
@@ -61,7 +63,20 @@ export const getProfileByAccessToken = async (req: TRequest, res: Response) => {
       return res.status(404).json(statuses['02']);
     }
 
-    return res.status(200).json(result);
+    const _findLastChangePassActivityByUser = await findLastChangePassActivityByUser(toObjectId(user));
+    const _findLastLoginByUser = await findLastLoginByUser(toObjectId(user));
+
+    return res.status(200).json({
+      ...result._doc,
+      others: {
+        lastLogin: _findLastLoginByUser
+          ? formatDate(_findLastLoginByUser)
+          : "N/A",
+        lastChangePassword: _findLastChangePassActivityByUser
+          ? formatDate(_findLastChangePassActivityByUser)
+          : "N/A"
+      }
+    });
   } catch (error) {
     console.log('@getProfileByAccessToken error', error);
     return res.status(401).json(statuses['0900']);

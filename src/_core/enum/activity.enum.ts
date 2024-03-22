@@ -4,8 +4,11 @@ export enum EventName {
 }
 
 export enum ActivityType {
-  LOGIN = 'Login success',
-  REGISTRATION_SUCCESS = 'Registration success',
+  LOGIN = 'Logged in successfully',
+  CHANGE_PASSWORD = 'Changed password successfully',
+  REGISTRATION_SUCCESS = 'Registered successfully',
+  EKYC_SUCCESS = 'EKYC completed',
+  SEED_USER_ACCOUNT = 'Seeded user account successfully',
   PROFILE_CREATED = 'Profile created',
   PROFILE_UPDATED = 'Profile updated',
 }
