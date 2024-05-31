@@ -5,7 +5,15 @@ import { emitter } from '../events/activity.event';
 import { EventName } from '../enum/activity.enum';
 import { IRequestLog } from '../interfaces/schema/schema.interface';
 
-export const requestLoggerMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+/**
+ * Middleware function that logs request and response data and emits an event with the data.
+ *
+ * @param {Request} req - The request object.
+ * @param {Response} res - The response object.
+ * @param {NextFunction} next - The next function to be called.
+ * @return {Promise<void | Response>} - Returns a Promise that resolves when the middleware is done.
+ */
+export const requestLoggerMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void | Response> => {
   const start = Date.now();
 
   // Get client IP address from headers (use a more accurate method if needed)

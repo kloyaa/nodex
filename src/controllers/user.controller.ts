@@ -10,7 +10,14 @@ import { formatDate } from '../_core/utils/utils';
 import { findLastChangePassActivityByUser, findLastLoginByUser } from '../_core/services/user/user.service';
 import { toObjectId } from '../_core/utils/odm';
 
-export const createProfile = async (req: TRequest, res: Response) => {
+/**
+ * Creates a new profile for a user.
+ *
+ * @param {TRequest} req - The request object containing the user's profile data.
+ * @param {Response} res - The response object used to send the response.
+ * @return {Promise<void>} A promise that resolves when the profile is created successfully or rejects with an error.
+ */
+export const createProfile = async (req: TRequest, res: Response): Promise<void | Response> => {
   const error = validateCreateProfile(req.body);
   if (error) {
     return res.status(400).json({
@@ -52,7 +59,16 @@ export const createProfile = async (req: TRequest, res: Response) => {
   }
 };
 
-export const getProfileByAccessToken = async (req: TRequest, res: Response) => {
+/**
+ * Retrieves the user profile associated with the access token provided in the request.
+ *
+ * @param {TRequest} req - The request object containing the access token.
+ * @param {Response} res - The response object used to send the user profile.
+ * @return {Promise<void>} A promise that resolves when the user profile is successfully retrieved and sent in the response.
+ *                         If the user profile is not found, a 404 status is returned with the corresponding error message.
+ *                         If there is an error retrieving the user profile, a 401 status is returned with the corresponding error message.
+ */
+export const getProfileByAccessToken = async (req: TRequest, res: Response): Promise<void | Response> => {
   try {
     const user = req.user.id;
     const result: any = await Profile.findOne({ user }).exec();

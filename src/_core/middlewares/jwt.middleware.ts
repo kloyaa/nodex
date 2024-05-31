@@ -2,10 +2,17 @@ import jwt from 'jsonwebtoken';
 import { statuses } from '../const/api.statuses';
 import { getEnv } from '../config/env.config';
 import { decrypt } from '../utils/security/encryption.util';
-import { Request } from 'express';
 import { TRequest } from '../interfaces/overrides.interface';
 
-export const isAuthenticated = async (req: TRequest, res: any, next: any) => {
+/**
+ * Middleware function that checks if the user is authenticated by verifying the JWT token in the request headers.
+ *
+ * @param {TRequest} req - The request object.
+ * @param {any} res - The response object.
+ * @param {any} next - The next function to be called.
+ * @return {Promise<void | Response>} - Returns a Promise that resolves when the middleware is done.
+ */
+export const isAuthenticated = async (req: TRequest, res: any, next: any): Promise<void | Response> => {
   try {
     const authHeader = req.headers['authorization'];
     if (!authHeader) {

@@ -14,7 +14,14 @@ import { TRequest } from '../_core/interfaces/overrides.interface';
 import { isPasswordAlreadyUsed } from '../_core/services/user/user.service';
 import { toObjectId } from '../_core/utils/odm';
 
-export const login = async (req: TRequest, res: Response): Promise<any> => {
+/**
+ * Logs in a user with the provided credentials.
+ *
+ * @param {TRequest} req - The request object containing the user's login credentials.
+ * @param {Response} res - The response object used to send the login result.
+ * @return {Promise<any>} - A promise that resolves with the login result.
+ */
+export const login = async (req: TRequest, res: Response): Promise<any | Response> => {
   const error = validateLogin(req.body);
   if (error) {
     return res.status(400).json({
@@ -59,7 +66,14 @@ export const login = async (req: TRequest, res: Response): Promise<any> => {
   }
 };
 
-export const register = async (req: TRequest, res: Response): Promise<any> => {
+/**
+ * Registers a new user with the provided credentials.
+ *
+ * @param {TRequest} req - The request object containing the user's registration data.
+ * @param {Response} res - The response object used to send the registration result.
+ * @return {Promise<any>} - A promise that resolves with the registration result.
+ */
+export const register = async (req: TRequest, res: Response): Promise<any | Response> => {
   const error = validateRegister(req.body);
   if (error) {
     return res.status(400).json({
@@ -109,7 +123,14 @@ export const register = async (req: TRequest, res: Response): Promise<any> => {
   }
 };
 
-export const changeUserPassword = async (req: TRequest, res: Response) => {
+/**
+ * Changes the user's password.
+ *
+ * @param {TRequest} req - The request object containing the user's current password and new password.
+ * @param {Response} res - The response object used to send the result of the password change.
+ * @return {Promise<void>} - A promise that resolves with the result of the password change.
+ */
+export const changeUserPassword = async (req: TRequest, res: Response): Promise<void | Response> => {
   const error = validateChangePassword(req.body);
   if (error) {
     return res.status(400).json({
