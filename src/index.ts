@@ -13,6 +13,8 @@ import { fileFilter, storage } from './_core/services/upload/image_upload.servic
 import authRoute from './routes/auth.route';
 import userRoute from './routes/user.route';
 import uploadRoute from './routes/upload.route';
+import auxiliaryRoute from './routes/auxiliary.route';
+
 import { logNetworBody, logNetworkHeaders, logNetworkRequests, setDefaultDateTime } from './_core/middlewares/default.middleware';
 import { colors } from './_core/const/common.const';
 
@@ -48,11 +50,12 @@ async function runApp(): Promise<void> {
   app.use(logNetworkRequests);
   app.use(logNetworkHeaders);
   app.use(logNetworBody);
-  
+
   // Routes
   app.use('/api', authRoute);
   app.use('/api', userRoute);
   app.use('/api', uploadRoute);
+  app.use('/api', auxiliaryRoute);
 
   // Connect to MongoDB
   connectDB();
