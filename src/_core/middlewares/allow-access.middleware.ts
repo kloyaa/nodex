@@ -16,6 +16,9 @@ export const allowApiAccessMiddleware = async (req: Request, res: Response, next
   const secretKey = req.headers['nodex-secret-key'];
   const userOrigin = req.headers['nodex-user-origin'];
 
+  if(req.path.includes('api-docs')){
+    return next();
+  }
   if (isEmpty(accessKey) || isEmpty(secretKey) || isEmpty(userOrigin)) {
     return res.status(403).json(statuses['0060']);
   }

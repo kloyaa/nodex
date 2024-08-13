@@ -2,6 +2,7 @@ import express, { type Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import multer from 'multer';
+
 import { connectDB } from './_core/utils/db/db.util';
 import { getEnv } from './_core/config/env.config';
 import { maintenanceModeMiddleware } from './_core/middlewares/maintenance-mode.middleware';
@@ -17,6 +18,7 @@ import auxiliaryRoute from './routes/auxiliary.route';
 
 import { logNetworBody, logNetworkHeaders, logNetworkRequests, setDefaultDateTime } from './_core/middlewares/default.middleware';
 import { colors } from './_core/const/common.const';
+import { swaggerSetup } from './swagger/swagger';
 
 const app: Application = express();
 
@@ -31,6 +33,7 @@ async function runApp(): Promise<void> {
   app.use(helmet()); // Apply standard security headers
   app.use(
     cors({
+      origin: "http://localhost:3432",
       exposedHeaders: ['X-Nodex-DateTime'],
     }),
   );
@@ -56,6 +59,8 @@ async function runApp(): Promise<void> {
   app.use('/api', userRoute);
   app.use('/api', uploadRoute);
   app.use('/api', auxiliaryRoute);
+
+  swaggerSetup(app);
 
   // Connect to MongoDB
   connectDB();

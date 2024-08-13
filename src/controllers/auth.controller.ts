@@ -14,13 +14,7 @@ import { TRequest } from '../_core/interfaces/overrides.interface';
 import { isPasswordAlreadyUsed } from '../_core/services/user/user.service';
 import { toObjectId } from '../_core/utils/odm';
 
-/**
- * Logs in a user with the provided credentials.
- *
- * @param {TRequest} req - The request object containing the user's login credentials.
- * @param {Response} res - The response object used to send the login result.
- * @return {Promise<any>} - A promise that resolves with the login result.
- */
+
 export const login = async (req: TRequest, res: Response): Promise<any | Response> => {
   const error = validateLogin(req.body);
   if (error) {
@@ -38,8 +32,9 @@ export const login = async (req: TRequest, res: Response): Promise<any | Respons
       .exec();
 
     if (!user) {
-      res.status(401).json(statuses['0051']);
-      return;
+      return res
+        .status(401)
+        .json(statuses['0051']);
     }
 
     const passwordMatched: boolean = await bcrypt.compare(password, user.password);
@@ -47,19 +42,22 @@ export const login = async (req: TRequest, res: Response): Promise<any | Respons
       return res.status(401).json(statuses['0051']);
     }
 
+    const env = await getEnv();
+    const payload = { origin: req.headers['nodex-user-origin'], id: user.id };
+    const encryptedPayload = encrypt(payload, env.NODEX_CRYPTO_KEY ?? '123_cryptoKey');
+    const generatedToken = await generateJwt(encryptedPayload, env.JWT_SECRET_KEY || '123_secretKey');
+
     emitter.emit(EventName.ACTIVITY, {
       user: user.id,
       description: ActivityType.LOGIN,
     } as IActivity);
 
-    const env = await getEnv();
-    const payload = { origin: req.headers['nodex-user-origin'], id: user.id };
-    const encryptedPayload = encrypt(payload, env.NODEX_CRYPTO_KEY ?? '123_cryptoKey');
-
-    return res.status(200).json({
-      ...statuses['00'],
-      data: await generateJwt(encryptedPayload, env.JWT_SECRET_KEY || '123_secretKey'),
-    });
+    return res
+      .status(200)
+      .json({
+        ...statuses['00'],
+        accessToken: generatedToken,
+      });
   } catch (error) {
     console.log('@login error', error);
     return res.status(401).json(statuses['0900']);
@@ -92,9 +90,7 @@ export const register = async (req: TRequest, res: Response): Promise<any | Resp
 
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
-
     const hashedPassword = await bcrypt.hash(password, salt);
-
     const newUser = new User({
       username,
       email,
