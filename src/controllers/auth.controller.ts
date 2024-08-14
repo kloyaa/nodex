@@ -14,7 +14,6 @@ import { TRequest } from '../_core/interfaces/overrides.interface';
 import { isPasswordAlreadyUsed } from '../_core/services/user/user.service';
 import { toObjectId } from '../_core/utils/odm';
 
-
 export const login = async (req: TRequest, res: Response): Promise<any | Response> => {
   const error = validateLogin(req.body);
   if (error) {

@@ -64,6 +64,7 @@ async function runApp(): Promise<void> {
 
   // Connect to MongoDB
   connectDB();
+
   // Start the HTTPS server
   app.listen(Number(env?.PORT) || 5000, () => {
     console.log(`${colors.fg.cyan}[application] @environment `, env?.ENVIRONMENT);
