@@ -43,7 +43,10 @@ To start using "Nodex," follow these steps:
 | NODEX_ACCESS_KEY          | Headers validation | your-nodex-key      |
 | NODEX_SECRET_KEY          | Headers validation | your-nodex-key      |
 | NODEX_CRYPTO_KEY          | Encryption secret key | your-nodex-key      |
-
+| CLOUDINARY_NAME          | Cloudinary name | your-cld-name      |
+| CLOUDINARY_KEY          | Cloudinary key | your-cld-key      |
+| CLOUDINARY_SECRET          | Cloudinary secret key | your-cld-secret-key      |
+| CLOUDINARY_PROJECT_NAME          | Cloudinary project name | your-cld-project-name      |
 ## Scripts
 
 Run application locally
