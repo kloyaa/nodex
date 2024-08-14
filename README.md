@@ -4,6 +4,8 @@
 
 ## Key Features
 
+- **Image uploading with cloudinary:** Easily manage image uploads by integrating with Cloudinary, a powerful image and video management service. Upload, transform, and optimize images directly from your application, and leverage Cloudinary’s robust features for handling media files, such as automatic format conversion, resizing, and CDN delivery.
+- **Redis cache:** Improve application performance and scalability by using Redis as an in-memory cache. Store frequently accessed data in Redis to reduce database load and latency. Redis caching helps speed up data retrieval operations, providing a more responsive user experience and efficiently managing high-traffic scenarios.
 - **TypeScript Ready:** Benefit from strong typing and enhanced code quality with TypeScript.
 - **Express.js Framework:** Utilize the popular Express.js framework for building robust web applications and APIs.
 - **MongoDB Integration:** Seamlessly connect to MongoDB databases to efficiently store and retrieve data.
