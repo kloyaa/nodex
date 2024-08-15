@@ -4,6 +4,7 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
+  roles: IRole[];
 }
 
 export interface IPassword extends Document {
@@ -111,4 +112,13 @@ export interface SubRegion extends Partial<Document> {
   name: string;
   regionId: string;
   wikiDataId: string;
+}
+
+export interface IRole extends Document {
+  name: string;
+}
+
+export interface IUserRole extends Document {
+  user: Types.ObjectId
+  role: Types.ObjectId
 }

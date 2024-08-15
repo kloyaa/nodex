@@ -4,6 +4,8 @@ import Profile from '../../../schema/profile.schema';
 import { Password, User } from '../../../schema/user.schema';
 import Activity from '../../../schema/activity.schema';
 import { ActivityType } from '../../enum/activity.enum';
+import { Role } from '../../../schema/role.schema';
+import { UserRole } from '../../../schema/user_role.schema';
 
 export const isUserActive = async (user: Types.ObjectId) => {
   try {
@@ -63,4 +65,15 @@ export const findLastLoginByUser = async (user: Types.ObjectId) => {
     console.log('@findLastLoginByUser error', isPasswordAlreadyUsed);
     return null;
   }
+};
+
+export const setDefaultRole = async (user: Types.ObjectId, roleName?: string) => {
+  const roles = await Role.find().exec();
+  const role = roles.find((r) => r.name === roleName);
+  const defaultRole = roles.find((r) => r.name === 'user');
+  const userRole = new UserRole({
+    user,
+    role: role?._id ?? defaultRole?._id,
+  });
+  await userRole.save();
 };

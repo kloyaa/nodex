@@ -11,8 +11,11 @@ import { getEnv } from '../_core/config/env.config';
 import { Password, User } from '../schema/user.schema';
 import { encrypt } from '../_core/utils/security/encryption.util';
 import { TRequest } from '../_core/interfaces/overrides.interface';
-import { isPasswordAlreadyUsed } from '../_core/services/user/user.service';
+import { isPasswordAlreadyUsed, setDefaultRole } from '../_core/services/user/user.service';
 import { toObjectId } from '../_core/utils/odm';
+import { Role } from '../schema/role.schema';
+import { RoleName } from '../_core/enum/roles.enum';
+import { UserRole } from '../schema/user_role.schema';
 
 export const login = async (req: TRequest, res: Response): Promise<any | Response> => {
   const error = validateLogin(req.body);
@@ -72,6 +75,9 @@ export const login = async (req: TRequest, res: Response): Promise<any | Respons
  */
 export const register = async (req: TRequest, res: Response): Promise<any | Response> => {
   const error = validateRegister(req.body);
+  const createRoleFor = req.headers['nodex-role-for']?.toString().toLowerCase();
+
+
   if (error) {
     return res.status(400).json({
       ...statuses['501'],
@@ -99,6 +105,11 @@ export const register = async (req: TRequest, res: Response): Promise<any | Resp
 
     const createdUser = await newUser.save();
 
+    await setDefaultRole(
+      createdUser.id,
+      createRoleFor
+    )
+
     emitter.emit(EventName.ACTIVITY, {
       user: createdUser.id,
       description: ActivityType.REGISTRATION_SUCCESS,
@@ -110,7 +121,7 @@ export const register = async (req: TRequest, res: Response): Promise<any | Resp
 
     return res.status(201).json({
       ...statuses['0050'],
-      data: await generateJwt(encryptedPayload, env.JWT_SECRET_KEY || '123_secretkey'),
+      accessToken: await generateJwt(encryptedPayload, env.JWT_SECRET_KEY || '123_secretkey'),
     });
   } catch (error) {
     console.log('@register error', error);

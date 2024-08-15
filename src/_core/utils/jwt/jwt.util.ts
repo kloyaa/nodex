@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { getEnv } from '../../config/env.config';
+import { JwtExpiration } from '../../const/jwt.const';
 
 export const generateJwt = async (value: any, secretKey: string) => {
-  const env = await getEnv();
-  return jwt.sign({ value }, secretKey, { expiresIn: env.JWT_EXPIRY });
+  return jwt.sign({ value }, secretKey, { expiresIn: JwtExpiration.ACCESS_TOKEN });
 };

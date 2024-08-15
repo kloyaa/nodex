@@ -99,6 +99,10 @@ export const statuses = {
     message: 'User role not assigned. Please contact the administrator.',
     code: '0071',
   },
+  '0072': {
+    message: 'Role name not found. Please try again.',
+    code: '0072',
+  },
   /**
    * @alias Profile
    * @description from 0100 - 0200
