@@ -69,6 +69,7 @@ async function runApp(): Promise<void> {
   app.listen(Number(env?.PORT) || 5000, () => {
     console.log(`${colors.fg.cyan}[application] @environment `, env?.ENVIRONMENT);
     console.log(`${colors.fg.cyan}[application] @port `, Number(env?.PORT));
+    console.log(`${colors.fg.cyan}[application] @url `, `http://localhost:${Number(env?.PORT)}`);
   });
 }
 

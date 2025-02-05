@@ -13,9 +13,9 @@ import { encrypt } from '../_core/utils/security/encryption.util';
 import { TRequest } from '../_core/interfaces/overrides.interface';
 import { isPasswordAlreadyUsed, setDefaultRole } from '../_core/services/user/user.service';
 import { toObjectId } from '../_core/utils/odm';
-import { Role } from '../schema/role.schema';
-import { RoleName } from '../_core/enum/roles.enum';
-import { UserRole } from '../schema/user_role.schema';
+// import { Role } from '../schema/role.schema';
+// import { RoleName } from '../_core/enum/roles.enum';
+// import { UserRole } from '../schema/user_role.schema';
 
 export const login = async (req: TRequest, res: Response): Promise<any | Response> => {
   const error = validateLogin(req.body);
