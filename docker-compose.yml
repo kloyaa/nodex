@@ -8,9 +8,17 @@ services:
     depends_on:
       - mongo # Ensure 'mongo' starts before 'web'
     env_file: .env
-      # optional, you can either use env_file or environment
-      # or you can use this
-      # DB_CONNECTION_STRING: mongodb://mongo:27017/your_database_name
+  seed:
+    image: nodex # The image you built
+    command: npm run start:seeding # Run only the seeding command
+    depends_on:
+      - mongo # Or whatever your database service is named
+    volumes:
+      # Mount your code so seeding container has access
+      - ./src:/app/src
+      - ./.env:/app/.env
+    environment:
+      DB_CONNECTION_STRING: mongodb://host.docker.internal:27017/nodex # Connect to 'mongo' service
   mongo:
     image: mongo:latest # Use the official MongoDB image
     # ports: # optional: if you need to access mongo from host

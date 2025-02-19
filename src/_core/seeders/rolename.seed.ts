@@ -5,6 +5,8 @@ import { closeDB, connectDB } from '../utils/db/db.util';
 export const seedRoleNames = async () => {
   await connectDB();
 
+  await Role.deleteMany(); // clear all
+
   const roles = Object.values(RoleName).map((roleName) => ({ name: roleName }));
 
   await Role.insertMany(roles);

@@ -37,6 +37,7 @@ const app: Application = express();
  */
 async function runApp(): Promise<void> {
   const env = await getEnv();
+
   // Middleware
   app.use(helmet()); // Apply standard security headers
   app.use(
