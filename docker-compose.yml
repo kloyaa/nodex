@@ -1,0 +1,23 @@
+version: "3.9" # Or your preferred Compose file version
+services:
+  web:
+    image: nodex # The image you built
+    ports:
+      - "3432:3432" # Map port 3000 on host to 3000 in container
+    environment:
+      DB_CONNECTION_STRING: mongodb://host.docker.internal:27017/nodex # Connect to 'mongo' service
+    depends_on:
+      - mongo # Ensure 'mongo' starts before 'web'
+    env_file: .env
+      # optional, you can either use env_file or environment
+      # or you can use this
+      # DB_CONNECTION_STRING: mongodb://mongo:27017/your_database_name
+  mongo:
+    image: mongo:latest # Use the official MongoDB image
+    # ports: # optional: if you need to access mongo from host
+    #   - "27017:27017"
+    volumes:
+      # optional: if you need data persistence
+      - mongo_data:/data/db # map a volume to persist data
+volumes:
+  mongo_data:

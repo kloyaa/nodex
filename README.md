@@ -57,6 +57,20 @@ Run application locally
 Run seeds
 <pre> $ npm run start:seeding </pre>
 
+Run application using docker
+<pre> 
+    Running the Dockerfile
+    $ docker build -t <name> . // build the docker image
+    $ docker run -p 3000:3000 <name> // running the image
+    $ docker run -p 3000:3000 --env-file <.env> <name>
+
+    or 
+    
+    Running with docker-compose.yml
+    $ docker-compose up -d  // up
+    $ docker-compose down // down
+ </pre>
+
 ## Usage
 
 Feel free to customize and extend "Nodex" to meet the specific requirements of your project. This boilerplate is designed to save you time during the initial setup, allowing you to focus on building the core functionality of your Node.js project.
