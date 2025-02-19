@@ -13,7 +13,11 @@ import { IRequestLog } from '../interfaces/schema/schema.interface';
  * @param {NextFunction} next - The next function to be called.
  * @return {Promise<void | Response>} - Returns a Promise that resolves when the middleware is done.
  */
-export const requestLoggerMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void | Response> => {
+export const requestLoggerMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void | Response> => {
   const start = Date.now();
 
   // Get client IP address from headers (use a more accurate method if needed)

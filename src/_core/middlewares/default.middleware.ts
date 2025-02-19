@@ -11,8 +11,8 @@ import { colors } from '../const/common.const';
  * @return {void} This function does not return anything.
  */
 export const setDefaultDateTime = (req: Request, res: Response, next: NextFunction): void => {
-    res.setHeader('x-nodex-datetime', new Date().toISOString());
-    next();
+  res.setHeader('x-nodex-datetime', new Date().toISOString());
+  next();
 };
 
 /**
@@ -24,8 +24,10 @@ export const setDefaultDateTime = (req: Request, res: Response, next: NextFuncti
  * @return {void} This function does not return anything.
  */
 export const logNetworkRequests = (req: Request, res: Response, next: NextFunction): void => {
-    console.log(`${colors.fg.yellow}[endpoint] ${req.method} ${req.originalUrl} - ${formatDate(new Date())} ${colors.fg.white}`);
-    next();
+  console.log(
+    `${colors.fg.yellow}[endpoint] ${req.method} ${req.originalUrl} - ${formatDate(new Date())} ${colors.fg.white}`,
+  );
+  next();
 };
 
 /**
@@ -37,9 +39,9 @@ export const logNetworkRequests = (req: Request, res: Response, next: NextFuncti
  * @return {void} This function does not return anything.
  */
 export const logNetworkHeaders = (req: Request, res: Response, next: NextFunction): void => {
-    console.log(`${colors.fg.green}--> headers ${colors.fg.white}`);
-    console.log(req.headers)
-    next();
+  console.log(`${colors.fg.green}--> headers ${colors.fg.white}`);
+  console.log(req.headers);
+  next();
 };
 
 /**
@@ -51,7 +53,7 @@ export const logNetworkHeaders = (req: Request, res: Response, next: NextFunctio
  * @return {void} This function does not return anything.
  */
 export const logNetworBody = (req: Request, res: Response, next: NextFunction): void => {
-    console.log(`${colors.fg.green}--> body ${colors.fg.white}`);
-    console.log(req.body)
-    next();
+  console.log(`${colors.fg.green}--> body ${colors.fg.white}`);
+  console.log(req.body);
+  next();
 };

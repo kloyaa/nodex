@@ -31,7 +31,7 @@ export const generatePassword = (length: number) => {
   return password;
 };
 
-export const generateUsername =  () => {
+export const generateUsername = () => {
   const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
   const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
   const randomNumber = Math.floor(Math.random() * 10000);

@@ -6,6 +6,6 @@ const router = Router();
 const commonMiddlewares = [isAuthenticated];
 
 router.get('/aux/v1/generate/password', generatePassword as any);
-router.get('/aux/v1/generate/username',  generateUsername as any);
+router.get('/aux/v1/generate/username', generateUsername as any);
 
 export default router;

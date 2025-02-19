@@ -30,14 +30,9 @@ export const validateRegister = (body: any) => {
 
 export const validateChangePassword = (body: any) => {
   const { error } = Joi.object({
-    newPassword: Joi.string()
-      .required()
-      .min(6)
-      .max(255)
-      .pattern(passwordRegexp)
-      .messages({
-        'string.pattern.base': 'Password must contain at least 1 uppercase letter, 1 number, and 1 special character.',
-      }),
+    newPassword: Joi.string().required().min(6).max(255).pattern(passwordRegexp).messages({
+      'string.pattern.base': 'Password must contain at least 1 uppercase letter, 1 number, and 1 special character.',
+    }),
     currentPassword: Joi.string().required(),
   }).validate(body);
 

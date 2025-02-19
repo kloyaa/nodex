@@ -1,21 +1,20 @@
-
 export interface ISetPayload<T> {
-    key: string;
-    value: T;
+  key: string;
+  value: T;
 }
 
 export interface ISetResponse<T> {
-    success: boolean;
-    message: string;
-    data?: T;
+  success: boolean;
+  message: string;
+  data?: T;
 }
 
 export interface IGetPayload {
-    key: string;
+  key: string;
 }
 
 export interface IGetResponse<T> {
-    success: boolean;
-    message: string;
-    data?: T;
+  success: boolean;
+  message: string;
+  data?: T;
 }

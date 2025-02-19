@@ -16,7 +16,12 @@ import userRoute from './routes/user.route';
 import uploadRoute from './routes/upload.route';
 import auxiliaryRoute from './routes/auxiliary.route';
 
-import { logNetworBody, logNetworkHeaders, logNetworkRequests, setDefaultDateTime } from './_core/middlewares/default.middleware';
+import {
+  logNetworBody,
+  logNetworkHeaders,
+  logNetworkRequests,
+  setDefaultDateTime,
+} from './_core/middlewares/default.middleware';
 import { colors } from './_core/const/common.const';
 import { swaggerSetup } from './swagger/swagger';
 
@@ -33,7 +38,7 @@ async function runApp(): Promise<void> {
   app.use(helmet()); // Apply standard security headers
   app.use(
     cors({
-      origin: "http://localhost:3432",
+      origin: 'http://localhost:3432',
       exposedHeaders: ['X-Nodex-DateTime'],
     }),
   );
@@ -45,7 +50,7 @@ async function runApp(): Promise<void> {
   app.use(multer({ storage, fileFilter }).array('media'));
 
   app.get('/', (_, res) => {
-    return res.status(200).json({ message: "ok" })
+    return res.status(200).json({ message: 'ok' });
   });
 
   app.use(allowApiAccessMiddleware);

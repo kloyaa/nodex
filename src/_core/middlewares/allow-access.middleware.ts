@@ -11,12 +11,16 @@ import { getEnv } from '../config/env.config';
  * @param {NextFunction} next - The next function to be called.
  * @return {Promise<void | Response>} - Returns a Promise that resolves when the middleware is done.
  */
-export const allowApiAccessMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void | Response> => {
+export const allowApiAccessMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void | Response> => {
   const accessKey = req.headers['nodex-access-key'];
   const secretKey = req.headers['nodex-secret-key'];
   const userOrigin = req.headers['nodex-user-origin'];
 
-  if(req.path.includes('api-docs')){
+  if (req.path.includes('api-docs')) {
     return next();
   }
   if (isEmpty(accessKey) || isEmpty(secretKey) || isEmpty(userOrigin)) {

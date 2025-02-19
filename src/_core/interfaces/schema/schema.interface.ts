@@ -119,6 +119,6 @@ export interface IRole extends Document {
 }
 
 export interface IUserRole extends Document {
-  user: Types.ObjectId
-  role: Types.ObjectId
+  user: Types.ObjectId;
+  role: Types.ObjectId;
 }

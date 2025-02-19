@@ -23,8 +23,12 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsdoc(swaggerOptions);
 
 export const swaggerSetup = (app: any) => {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, {
-    customCss: '.swagger-ui .topbar { display: none }',
-    explorer: true,
-  }));
+  app.use(
+    '/api-docs',
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocs, {
+      customCss: '.swagger-ui .topbar { display: none }',
+      explorer: true,
+    }),
+  );
 };

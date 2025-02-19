@@ -1,1 +1,1 @@
-export * from "./redis.interface"
+export * from './redis.interface';

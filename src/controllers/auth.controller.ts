@@ -34,9 +34,7 @@ export const login = async (req: TRequest, res: Response): Promise<any | Respons
       .exec();
 
     if (!user) {
-      return res
-        .status(401)
-        .json(statuses['0051']);
+      return res.status(401).json(statuses['0051']);
     }
 
     const passwordMatched: boolean = await bcrypt.compare(password, user.password);
@@ -54,12 +52,10 @@ export const login = async (req: TRequest, res: Response): Promise<any | Respons
       description: ActivityType.LOGIN,
     } as IActivity);
 
-    return res
-      .status(200)
-      .json({
-        ...statuses['00'],
-        accessToken: generatedToken,
-      });
+    return res.status(200).json({
+      ...statuses['00'],
+      accessToken: generatedToken,
+    });
   } catch (error) {
     console.log('@login error', error);
     return res.status(401).json(statuses['0900']);
@@ -76,7 +72,6 @@ export const login = async (req: TRequest, res: Response): Promise<any | Respons
 export const register = async (req: TRequest, res: Response): Promise<any | Response> => {
   const error = validateRegister(req.body);
   const createRoleFor = req.headers['nodex-role-for']?.toString().toLowerCase();
-
 
   if (error) {
     return res.status(400).json({
@@ -105,10 +100,7 @@ export const register = async (req: TRequest, res: Response): Promise<any | Resp
 
     const createdUser = await newUser.save();
 
-    await setDefaultRole(
-      createdUser.id,
-      createRoleFor
-    )
+    await setDefaultRole(createdUser.id, createRoleFor);
 
     emitter.emit(EventName.ACTIVITY, {
       user: createdUser.id,

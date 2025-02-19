@@ -4,10 +4,10 @@ import { City, Country, Region } from '../../interfaces/schema/schema.interface'
 
 export class ReadAddress {
   /**
- * Retrieves a list of countries from a CSV file and maps the data to the Country interface.
- *
- * @return {Promise<Country[]>} A promise that resolves to an array of Country objects.
- */
+   * Retrieves a list of countries from a CSV file and maps the data to the Country interface.
+   *
+   * @return {Promise<Country[]>} A promise that resolves to an array of Country objects.
+   */
   async getCountries(): Promise<Country[]> {
     return new Promise<Country[]>((resolve, reject) => {
       const countries: Country[] = [];
@@ -45,10 +45,10 @@ export class ReadAddress {
   }
 
   /**
- * Retrieves a list of cities from a CSV file and maps the data to the City interface.
- *
- * @return {Promise<City[]>} A promise that resolves to an array of City objects.
- */
+   * Retrieves a list of cities from a CSV file and maps the data to the City interface.
+   *
+   * @return {Promise<City[]>} A promise that resolves to an array of City objects.
+   */
   async getCities(): Promise<City[]> {
     return new Promise<City[]>((resolve, reject) => {
       const cities: City[] = [];
@@ -75,10 +75,10 @@ export class ReadAddress {
   }
 
   /**
- * Retrieves a list of regions from a CSV file and maps the data to the Region interface.
- *
- * @return {Promise<Region[]>} A promise that resolves to an array of Region objects.
- */
+   * Retrieves a list of regions from a CSV file and maps the data to the Region interface.
+   *
+   * @return {Promise<Region[]>} A promise that resolves to an array of Region objects.
+   */
   async getRegions(): Promise<Region[]> {
     return new Promise<Region[]>((resolve, reject) => {
       const regions: Region[] = [];
@@ -105,10 +105,10 @@ export class ReadAddress {
   }
 
   /**
- * Retrieves a list of subregions from a CSV file and maps the data to the desired format.
- *
- * @return {Promise<any[]>} A promise that resolves to an array of subregion objects.
- */
+   * Retrieves a list of subregions from a CSV file and maps the data to the desired format.
+   *
+   * @return {Promise<any[]>} A promise that resolves to an array of subregion objects.
+   */
   async getSubRegions(): Promise<any[]> {
     return new Promise<any[]>((resolve, reject) => {
       const regions: any[] = [];
@@ -128,10 +128,10 @@ export class ReadAddress {
   }
 
   /**
- * Retrieves a list of states from a CSV file and maps the data to the Region interface.
- *
- * @return {Promise<any[] | void>} A promise that resolves to an array of Region objects or undefined.
- */
+   * Retrieves a list of states from a CSV file and maps the data to the Region interface.
+   *
+   * @return {Promise<any[] | void>} A promise that resolves to an array of Region objects or undefined.
+   */
   async getStates(): Promise<any[] | void> {
     return new Promise<Region[]>((resolve, reject) => {
       const states: Region[] = [];
