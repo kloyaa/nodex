@@ -36,7 +36,6 @@ To start using "Nodex," follow these steps:
 | ENVIRONMENT_MAINTENANCE | Indicates maintenance mode    | true                  |
 | PORT                    | Port number for the application | 8080                  |
 | DB_CONNECTION_STRING    | Database connection string     | mongodb://localhost   |
-| DB_CONNECTION_STRING_LOCAL | Local database connection   | mongodb://localhost   |
 | AWS_ACCESS_KEY_ID       | AWS Access Key ID               | your-access-key-id    |
 | AWS_SECRET_ACCESS_KEY   | AWS Secret Access Key           | your-secret-access-key |
 | AWS_SECRET_NAME         | AWS Secret Name                 | your-secret-name      |
@@ -65,7 +64,7 @@ Run application using docker
     $ docker run -p 3000:3000 --env-file <.env> <name>
 
     or 
-    
+
     Running with docker-compose.yml
     $ docker-compose up -d  // up
     $ docker-compose down // down
