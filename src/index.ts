@@ -2,6 +2,7 @@ import express, { type Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import multer from 'multer';
+import swaggerUi from "swagger-ui-express";
 
 import { connectDB } from './_core/utils/db/db.util';
 import { getEnv } from './_core/config/env.config';
@@ -23,7 +24,9 @@ import {
   setDefaultDateTime,
 } from './_core/middlewares/default.middleware';
 import { colors } from './_core/const/common.const';
-import { swaggerSetup } from './swagger/swagger';
+// import { swaggerSetup } from './swagger/swagger';
+
+import swaggerDocument from "./swagger/swagger.json";
 
 const app: Application = express();
 
@@ -49,10 +52,6 @@ async function runApp(): Promise<void> {
   app.use(requestLoggerMiddleware);
   app.use(multer({ storage, fileFilter }).array('media'));
 
-  app.get('/', (_, res) => {
-    return res.status(200).json({ message: 'ok' });
-  });
-
   app.use(allowApiAccessMiddleware);
   app.use(maintenanceModeMiddleware);
   app.use(logNetworkRequests);
@@ -65,7 +64,16 @@ async function runApp(): Promise<void> {
   app.use('/api', uploadRoute);
   app.use('/api', auxiliaryRoute);
 
-  swaggerSetup(app);
+  // Swagger setup
+  app.use("/api-docs", swaggerUi.serve);
+  app.use("/api-docs", swaggerUi.setup(swaggerDocument));
+
+  app.get('/', (_, res) => {
+    return res.status(200).json({ message: 'ok' });
+  });
+
+
+  // swaggerSetup(app);
 
   // Connect to MongoDB
   connectDB();

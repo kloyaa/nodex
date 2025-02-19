@@ -68,6 +68,11 @@ Run application using docker
     Running with docker-compose.yml
     $ docker-compose up -d  // up
     $ docker-compose down // down
+    
+
+    note: if there is changes that doesn't reflect
+    $ docker build --no-cache -t <name> . 
+
  </pre>
 
 ## Usage
