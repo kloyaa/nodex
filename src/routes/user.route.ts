@@ -8,7 +8,7 @@ const router = Router();
 
 const commonMiddlewares = [isAuthenticated];
 
-router.post('/user/v1/profile', [...commonMiddlewares, authorize([RoleName.User])] as any, createProfile as any);
+router.post('/user/v1/profile', [...commonMiddlewares, authorize(RoleName.User)] as any, createProfile as any);
 router.get('/user/v1/profile', commonMiddlewares, getProfileByAccessToken as any);
 
 export default router;

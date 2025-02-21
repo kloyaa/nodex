@@ -9,6 +9,11 @@ const roleSchema = new Schema<IRole>({
     enum: Object.values(RoleName),
     unique: true,
   },
+  description: {
+    type: String,
+    default: '',
+    required: false,
+  },
 });
 
 export const Role = model<IRole>('Role', roleSchema);

@@ -1,4 +1,5 @@
 import { Types } from 'mongoose';
+import { Role } from '../../../schema/role.schema';
 
 export interface IUser extends Document {
   username: string;
@@ -116,9 +117,10 @@ export interface SubRegion extends Partial<Document> {
 
 export interface IRole extends Document {
   name: string;
+  description: string;
 }
 
 export interface IUserRole extends Document {
   user: Types.ObjectId;
-  role: Types.ObjectId;
+  role: typeof Role;
 }

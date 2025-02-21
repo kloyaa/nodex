@@ -38,3 +38,8 @@ export const generateUsername = () => {
 
   return `${randomAdjective}${randomNoun}${randomNumber}`;
 };
+
+export const delay = (ms: number) => {
+  console.log(`Delay started ${ms}`)
+  return new Promise(resolve => setTimeout(resolve, ms));
+};

@@ -11,8 +11,11 @@ import { getEnv } from '../_core/config/env.config';
 import { Password, User } from '../schema/user.schema';
 import { encrypt } from '../_core/utils/security/encryption.util';
 import { TRequest } from '../_core/interfaces/overrides.interface';
-import { isPasswordAlreadyUsed, setDefaultRole } from '../_core/services/user/user.service';
+import { isPasswordAlreadyUsed } from '../_core/services/user/user.service';
 import { toObjectId } from '../_core/utils/odm';
+import { Role } from '../schema/role.schema';
+import { UserRole } from '../schema/user_role.schema';
+import { startSession } from 'mongoose';
 // import { Role } from '../schema/role.schema';
 // import { RoleName } from '../_core/enum/roles.enum';
 // import { UserRole } from '../schema/user_role.schema';
@@ -71,7 +74,6 @@ export const login = async (req: TRequest, res: Response): Promise<any | Respons
  */
 export const register = async (req: TRequest, res: Response): Promise<any | Response> => {
   const error = validateRegister(req.body);
-  const createRoleFor = req.headers['nodex-role-for']?.toString().toLowerCase();
 
   if (error) {
     return res.status(400).json({
@@ -88,6 +90,12 @@ export const register = async (req: TRequest, res: Response): Promise<any | Resp
       return res.status(401).json(statuses['0052']);
     }
 
+    // Check if default role exist in DB
+    const userRole = await Role.findOne({ name: 'user' });
+    if (!userRole) {
+      return res.status(401).json(statuses['0072']);
+    }
+
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -98,9 +106,14 @@ export const register = async (req: TRequest, res: Response): Promise<any | Resp
       salt,
     });
 
-    const createdUser = await newUser.save();
+    const createdUser = await newUser.save({
+      session: await startSession(),
+    });
 
-    await setDefaultRole(createdUser.id, createRoleFor);
+    await UserRole.create({
+      user: createdUser._id,
+      role: userRole._id,
+    });
 
     emitter.emit(EventName.ACTIVITY, {
       user: createdUser.id,

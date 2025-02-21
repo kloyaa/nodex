@@ -27,8 +27,14 @@ import { colors } from './_core/const/common.const';
 // import { swaggerSetup } from './swagger/swagger';
 
 import swaggerDocument from "./swagger/swagger.json";
+import { connectRedisDb } from './_core/services/redis/redis-client.service';
+import { delay } from './_core/utils/utils';
 
 const app: Application = express();
+
+const swaggerOptions: swaggerUi.SwaggerUiOptions = {
+  explorer: true,
+};
 
 /**
  * Runs the application by setting up middleware and routes, connecting to MongoDB, and starting the HTTPS server.
@@ -59,6 +65,12 @@ async function runApp(): Promise<void> {
   app.use(logNetworkHeaders);
   app.use(logNetworBody);
 
+  // delay route
+  app.use(async (req, res, next) => {
+    await delay(5_000)
+    next()
+  })
+
   // Routes
   app.use('/api', authRoute);
   app.use('/api', userRoute);
@@ -67,17 +79,17 @@ async function runApp(): Promise<void> {
 
   // Swagger setup
   app.use("/api-docs", swaggerUi.serve);
-  app.use("/api-docs", swaggerUi.setup(swaggerDocument));
+  app.use("/api-docs", swaggerUi.setup(swaggerDocument, swaggerOptions));
 
   app.get('/', (_, res) => {
     return res.status(200).json({ message: 'ok' });
   });
 
-
-  // swaggerSetup(app);
-
   // Connect to MongoDB
   connectDB();
+
+  // Connect to Redis
+  connectRedisDb()
 
   // Start the HTTPS server
   app.listen(Number(env?.PORT) || 5000, () => {

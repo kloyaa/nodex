@@ -1,12 +1,14 @@
 services:
-  web:
+  app:
     image: nodex # The image you built
     ports:
       - "3432:3432" # Map port 3000 on host to 3000 in container
     environment:
       DB_CONNECTION_STRING: mongodb://host.docker.internal:27017/nodex # Connect to 'mongo' service
+      REDIS_URL: redis://redis:6379  # Add Redis URL
     depends_on:
       - mongo # Ensure 'mongo' starts before 'web'
+      - redis # Add redis dependency
     env_file: .env
   seed:
     image: nodex # The image you built
@@ -24,7 +26,10 @@ services:
     # ports: # optional: if you need to access mongo from host
     #   - "27017:27017"
     volumes:
-      # optional: if you need data persistence
       - mongo_data:/data/db # map a volume to persist data
+  redis: # Add Redis service
+    image: redis:latest
+    ports: 
+      - "6379:6379"
 volumes:
   mongo_data:

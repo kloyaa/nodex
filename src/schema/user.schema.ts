@@ -1,5 +1,7 @@
-import { Schema, model } from 'mongoose';
+import { CallbackError, Schema, model } from 'mongoose';
 import { IPassword, IUser } from '../_core/interfaces/schema/schema.interface';
+import { Role } from './role.schema';
+import { UserRole } from './user_role.schema';
 
 const userSchema = new Schema<IUser>(
   {

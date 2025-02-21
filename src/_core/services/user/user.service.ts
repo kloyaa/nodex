@@ -67,13 +67,10 @@ export const findLastLoginByUser = async (user: Types.ObjectId) => {
   }
 };
 
-export const setDefaultRole = async (user: Types.ObjectId, roleName?: string) => {
-  const roles = await Role.find().exec();
-  const role = roles.find((r) => r.name === roleName);
-  const defaultRole = roles.find((r) => r.name === 'user');
-  const userRole = new UserRole({
-    user,
-    role: role?._id ?? defaultRole?._id,
-  });
-  await userRole.save();
+export const assignRoleToUser = async (userId: string, roleId: string) => {
+  return await UserRole.create({ user: userId, role: roleId });
+};
+
+export const removeRoleFromUser = async (userId: string, roleId: string) => {
+  return await UserRole.findOneAndDelete({ user: userId, role: roleId });
 };

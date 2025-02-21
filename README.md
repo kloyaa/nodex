@@ -68,11 +68,16 @@ Run application using docker
     Running with docker-compose.yml
     $ docker-compose up -d  // up
     $ docker-compose down // down
-    
+
+    Running specific service
+    $ docker-compose run <servicename>
 
     note: if there is changes that doesn't reflect
     $ docker build --no-cache -t <name> . 
 
+
+    Running redis via Docker
+    $ docker run -p 6379:6379 -it redis/redis-stack-server:latest
  </pre>
 
 ## Usage
